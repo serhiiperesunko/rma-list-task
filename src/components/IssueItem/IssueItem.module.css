@@ -8,6 +8,10 @@
     border-radius: 4px;
 }
 
+.issueItem:hover {
+    cursor: pointer;
+}
+
 .issueItemTitle {
     display: flex;
     align-items: center;
