@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {TIssue} from "../../types";
+import {TIssue} from "../../components/IssueItem/IssueItem";
 
 interface IIssuesSlice {
     list: TIssue[]
@@ -18,7 +18,7 @@ export const issuesSlice = createSlice({
         updateIssue: (state, action: PayloadAction<TIssue>) => {
             const newList = [...state.list]
             const index = state.list.findIndex((issue) => issue.id === action.payload.id);
-            
+
             newList[index] = action.payload
             state.list = newList
         }

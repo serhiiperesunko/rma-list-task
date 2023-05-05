@@ -3,12 +3,13 @@ import {useAppSelector} from "./redux/hooks";
 import {selectIssueList} from "./redux/slices/selectors";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "./redux/store";
-import {setList, updateIssue} from "./redux/slices/issuesSlice";
+import {setList} from "./redux/slices/issuesSlice";
+import {IssueList} from "./components";
+import styles from './App.module.css'
 
 function App() {
-    const issuesList = useAppSelector(selectIssueList)
+    const issueList = useAppSelector(selectIssueList)
     const dispatch: AppDispatch = useDispatch()
-    console.log(issuesList)
 
     useEffect(() => {
         dispatch(setList([
@@ -34,17 +35,7 @@ function App() {
             }
         ]))
     }, [])
-
-    const update = () => {
-        dispatch(updateIssue({
-            id: "1002",
-            summary: "I am updated",
-            status: "IN_PROGRESS"
-        },))
-    }
-    return <div>
-        <button onClick={update}>update</button>
-    </div>
+    return <div className={styles.container}><IssueList issues={issueList}/></div>
 }
 
 export default App;

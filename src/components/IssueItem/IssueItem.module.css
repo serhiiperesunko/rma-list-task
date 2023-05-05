@@ -1,0 +1,32 @@
+.issueItem {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    padding: 20px 15px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.issueItemTitle {
+    display: flex;
+    align-items: center;
+}
+
+.status {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+}
+
+.IN_PROGRESS {
+    background: blue;
+}
+
+.TODO {
+    background: black;
+}
+
+.DONE {
+    background: green;
+}
