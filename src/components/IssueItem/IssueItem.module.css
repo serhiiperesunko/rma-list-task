@@ -13,6 +13,11 @@
     align-items: center;
 }
 
+.issueItemSelected {
+    /*border-color: blue;*/
+    background: lightblue;
+}
+
 .status {
     color: white;
     padding: 5px 10px;
