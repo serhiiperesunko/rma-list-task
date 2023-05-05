@@ -1,42 +1,31 @@
 import styles from './IssueList.module.css'
 import {TIssue} from "../IssueItem/IssueItem";
 import {IssueItem} from "..";
-import React, {useEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 interface IIssueList {
     issues: TIssue[]
 }
 
+
+const Modal = () => {
+    return <div>Modal</div>
+}
+
 const IssueList = ({issues}: IIssueList) => {
     const issueRef = useRef() as React.MutableRefObject<HTMLDivElement>
     const [selectedIssues, setSelectedIssues] = useState<TIssue[]>([])
-
-    /**
-     * Sort by:
-     * 1. In progress
-     * 2. To do
-     * 3. Done
-     * */
-    const sortedList = useMemo(() => [...issues].sort((a, b) => {
-        if (a.status === "IN_PROGRESS" && b.status !== "IN_PROGRESS") {
-            return -1;
-        } else if (a.status !== "IN_PROGRESS" && b.status === "IN_PROGRESS") {
-            return 1;
-        } else if (a.status === "TODO" && b.status !== "TODO") {
-            return -1;
-        } else if (a.status !== "TODO" && b.status === "TODO") {
-            return 1;
-        } else {
-            return 0;
-        }
-    }), [issues])
-
+    const [showForm, setShowForm] = useState(false)
     const isSelected = (id: string) => !!selectedIssues.find(el => el.id === id)
 
+    // Show modal selectedIssues is not empty
+    useEffect(() => {
+        if (selectedIssues.length !== 0) setShowForm(true)
+        else setShowForm(false)
+    }, [selectedIssues])
+
     const handleSelectedIssues = (e: React.MouseEvent<HTMLDivElement>, issue: TIssue) => {
-        /**
-         * If you hold down the CTRL key - multiple selection
-         * */
+        // If you hold down the CTRL key - multiple selection
         if (e.metaKey || e.ctrlKey) {
             setSelectedIssues(prev => {
                 const index = prev.findIndex(el => el.id === issue.id)
@@ -50,14 +39,14 @@ const IssueList = ({issues}: IIssueList) => {
                 return newArr
             })
         }
-        /**
-         * Single selection
-         * */
+
+        // Single selection
         else {
             setSelectedIssues([issue])
         }
     }
 
+    // Detect click outside issue list, reset selected issues
     useEffect(() => {
         const checkIfClickedOutsideList = (e: Event) => {
             const target = e.target as HTMLDivElement;
@@ -65,21 +54,20 @@ const IssueList = ({issues}: IIssueList) => {
                 setSelectedIssues([])
             }
         }
-
         document.addEventListener("click", checkIfClickedOutsideList)
-
         return () => {
             document.removeEventListener("click", checkIfClickedOutsideList)
         }
     }, [])
 
     return <div ref={issueRef} className={styles.issueList}>
-        {sortedList.map((issue) => <IssueItem
+        {issues.map((issue) => <IssueItem
             key={`issue-item-${issue.id}`}
             onClick={handleSelectedIssues}
             selected={isSelected(issue.id)}
             {...issue}
         />)}
+        {showForm && <Modal/>}
     </div>
 }
 IssueList.displayName = 'IssueList'

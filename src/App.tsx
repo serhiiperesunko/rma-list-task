@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {useAppSelector} from "./redux/hooks";
 import {selectIssueList} from "./redux/slices/selectors";
 import {useDispatch} from "react-redux";
@@ -35,7 +35,22 @@ function App() {
             }
         ]))
     }, [])
-    return <div className={styles.container}><IssueList issues={issueList}/></div>
+    
+    const sortedList = useMemo(() => [...issueList].sort((a, b) => {
+        if (a.status === "IN_PROGRESS" && b.status !== "IN_PROGRESS") {
+            return -1;
+        } else if (a.status !== "IN_PROGRESS" && b.status === "IN_PROGRESS") {
+            return 1;
+        } else if (a.status === "TODO" && b.status !== "TODO") {
+            return -1;
+        } else if (a.status !== "TODO" && b.status === "TODO") {
+            return 1;
+        } else {
+            return 0;
+        }
+    }), [issueList])
+
+    return <div className={styles.container}><IssueList issues={sortedList}/></div>
 }
 
 export default App;
