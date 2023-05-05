@@ -15,10 +15,17 @@ export const issuesSlice = createSlice({
         setList: (state, action: PayloadAction<TIssue[]>) => {
             state.list = action.payload
         },
+        updateIssue: (state, action: PayloadAction<TIssue>) => {
+            const newList = [...state.list]
+            const index = state.list.findIndex((issue) => issue.id === action.payload.id);
+            
+            newList[index] = action.payload
+            state.list = newList
+        }
     },
 })
 
 // Action creators are generated for each case reducer function
-export const {setList} = issuesSlice.actions
+export const {setList, updateIssue} = issuesSlice.actions
 
 export default issuesSlice.reducer
