@@ -1,4 +1,4 @@
-.issueItem {
+.container {
     display: flex;
     align-content: center;
     justify-content: space-between;
@@ -8,17 +8,16 @@
     border-radius: 4px;
 }
 
-.issueItem:hover {
+.container:hover {
     cursor: pointer;
 }
 
-.issueItemTitle {
+.body {
     display: flex;
     align-items: center;
 }
 
-.issueItemSelected {
-    /*border-color: blue;*/
+.selected {
     background: lightblue;
 }
 
@@ -39,3 +38,17 @@
 .DONE {
     background: green;
 }
+
+
+/*.issueItem:hover {*/
+/*    cursor: pointer;*/
+/*}*/
+
+
+/*.issueItemSelected {*/
+/*    !*border-color: blue;*!*/
+/*    background: lightblue;*/
+/*}*/
+
+
+
