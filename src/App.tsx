@@ -3,16 +3,21 @@ import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {selectIssueList} from "./redux/slices/selectors";
 import styles from './App.module.css'
 import {IssueList, Loader} from "./components";
-import {setList} from "./redux/slices/issuesSlice";
+import {setList, TIssueData} from "./redux/slices/issuesSlice";
 import {restGetIssues} from "./server";
-import {TIssue} from "./types";
+import * as _ from "lodash"
+import {issueStatus} from "./types";
 
 function App() {
 
     const dispatch = useAppDispatch()
     const {list: {status, data}} = useAppSelector(selectIssueList)
 
-    //
+    const sortedIssues = _.orderBy(data, (item) => {
+        const index = Object.keys(issueStatus).indexOf(item.status);
+        return index === -1 ? Infinity : index;
+    })
+
     useEffect(() => {
         const fetchIssueData = () => {
             dispatch(setList({
@@ -20,14 +25,9 @@ function App() {
                 data: [],
             }))
             restGetIssues().then((data) => {
-                const updatedData = (data as TIssue[]).map(issue => ({
-                    ...issue,
-                    selected: false,
-                    loading: false
-                }))
                 dispatch(setList({
                     status: "SUCCESS",
-                    data: updatedData
+                    data: data as TIssueData[]
                 }))
             }).catch((error) => {
                 dispatch(setList({
@@ -38,7 +38,7 @@ function App() {
             })
         }
         fetchIssueData()
-        
+
         return () => {
             dispatch(setList({
                 status: "INITIAL",
@@ -48,10 +48,10 @@ function App() {
         }
 
 
-    }, [])
+    }, [dispatch])
     return <div className={styles.appContainer}>
         {status === 'LOADING' && <Loader/>}
-        {status === "SUCCESS" && <IssueList issues={data}/>}
+        {status === "SUCCESS" && <IssueList issues={sortedIssues}/>}
         {status === "ERROR" && <>Error</>}
     </div>
 }

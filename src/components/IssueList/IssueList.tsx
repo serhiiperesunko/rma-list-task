@@ -14,6 +14,7 @@ interface IIssueList {
 
 const IssueList = ({issues}: IIssueList) => {
     const dispatch = useAppDispatch()
+
     const refIssueList = useRef() as React.MutableRefObject<HTMLDivElement>
     const refModal = useRef() as React.MutableRefObject<HTMLDivElement>
 
@@ -28,7 +29,7 @@ const IssueList = ({issues}: IIssueList) => {
         return () => {
             document.removeEventListener('click', checkIfClickedOutsideList);
         };
-    }, [refIssueList]);
+    }, [refIssueList, refModal]);
     const handleSelectedIssues = (e: React.MouseEvent<HTMLDivElement>, issue: TIssueData) => {
         const newIssue = {...issue}
         newIssue.selected = !newIssue.selected

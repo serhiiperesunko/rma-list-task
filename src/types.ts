@@ -8,7 +8,7 @@ export type TIssueStatus = 'TODO' | 'IN_PROGRESS' | 'DONE';
 export const issueStatus: {
     [key in TIssueStatus]: string
 } = {
-    "TODO": 'Todo',
     "IN_PROGRESS": 'In progress',
+    "TODO": 'Todo',
     "DONE": "Done"
 }
