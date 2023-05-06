@@ -45,22 +45,29 @@ const IssueList = ({issues}: IIssueList) => {
 
     const handleUpdateStatus = (status: TIssueStatus) => {
         selectedIssues.forEach(issue => {
-            const newIssueState = {
-                ...issue,
-                loading: true
-            }
-            dispatch(updateIssue(newIssueState))
-            restPutIssue({
-                id: newIssueState.id,
-                summary: newIssueState.summary,
-                status
-            }).then(res => {
+            if (issue.status !== status) {
+                const newIssueState = {
+                    ...issue,
+                    loading: true
+                }
+                dispatch(updateIssue(newIssueState))
+                restPutIssue({
+                    id: newIssueState.id,
+                    summary: newIssueState.summary,
+                    status
+                }).then(res => {
+                    dispatch(updateIssue({
+                        ...res as TIssueData,
+                        selected: false,
+                        loading: false
+                    }))
+                })
+            } else {
                 dispatch(updateIssue({
-                    ...res as TIssueData,
+                    ...issue,
                     selected: false,
-                    loading: false
                 }))
-            })
+            }
         })
 
     }
