@@ -9,7 +9,7 @@ interface IUpdateStatusModal {
 
 const UpdateStatusModal = ({selectedItems = 0, onUpdate}: IUpdateStatusModal) => {
     const [selectedStatus, setSelectedStatus] = useState<TIssueStatus | ''>('')
-    const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const handleUpdate = () => {
         if (selectedStatus !== '') {
             onUpdate(selectedStatus)
         }

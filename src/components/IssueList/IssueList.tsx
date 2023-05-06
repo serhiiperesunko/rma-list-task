@@ -29,7 +29,7 @@ const IssueList = ({issues}: IIssueList) => {
         return () => {
             document.removeEventListener('click', checkIfClickedOutsideList);
         };
-    }, [refIssueList, refModal]);
+    }, [dispatch, refIssueList, refModal]);
     const handleSelectedIssues = (e: React.MouseEvent<HTMLDivElement>, issue: TIssueData) => {
         const newIssue = {...issue}
         newIssue.selected = !newIssue.selected
